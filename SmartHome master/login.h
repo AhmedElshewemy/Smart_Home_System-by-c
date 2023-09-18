@@ -16,6 +16,8 @@
 #include "LCD.h"
 #include "util/delay.h"
 #include "EEROM.h"
+#include"Message.h"
+
 
 
 u8 getnum(u8 key);

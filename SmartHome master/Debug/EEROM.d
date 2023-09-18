@@ -1,5 +1,5 @@
 EEROM.o EEROM.o: ../EEROM.c ../EEROM.h ../STD_TYPES.h ../BIT_MATH.h \
-  ../DIO.h ../KEY_PAD.h ../LCD.h ../login.h
+  ../DIO.h ../KEY_PAD.h ../LCD.h ../login.h ../Message.h
 
 ../EEROM.h:
 
@@ -14,3 +14,5 @@ EEROM.o EEROM.o: ../EEROM.c ../EEROM.h ../STD_TYPES.h ../BIT_MATH.h \
 ../LCD.h:
 
 ../login.h:
+
+../Message.h:

@@ -7,19 +7,7 @@ void EEROM(void)
 	u16 ValidPassword=0;
 	u8 pass[4];
 	if ( (EEPROM_Read_Byte(0X100)!=0x01) ){
-		LCD_VidSetClEAR();
-		LCD_VidSendString("Login for");
-		LCD_VidGoToLocation(LCD_RowTwo, LCD_ColOne);
-		LCD_VidSendString("first time");
-		_delay_ms(500);
-
-		LCD_VidSetClEAR();
-		LCD_VidSendString("Set Password");
-		LCD_VidGoToLocation(LCD_RowTwo, LCD_ColOne);
-		LCD_VidSendString(":");
-
-
-		u8	key;
+			u8	key;
 			for(int i =0 ;i<4;i++)
 			{
 				key = KPD_u8GetPressedKey();
@@ -38,10 +26,8 @@ void EEROM(void)
 			//EEPROM_vWriteBlockToAddress(0X102,pass,4);//save the entire password as a block to the EEPROM
 			//EEPROM_vWriteByteToAddress(0X100,0x01);//write the status of pass as it is set
 			EEPROM_Write_Byte(0X100,0x01);//write the status of pass as it is set
+			MessageSavePassword();
 
-			LCD_VidSetClEAR();
-			LCD_VidSendString("Pass Saved");
-			_delay_ms(300);
 	}else{
 	 //ValidPassword= EEPROM_vReadBlockFromAddress(0X102,4);//read the stored pass from the EEPROM
 		u8 key=0;
@@ -59,6 +45,10 @@ void EEROM(void)
 
 ///
 
+
+
+
+
 u8 EEPROM_Read_Byte( u16 Address)
 {
 
@@ -73,14 +63,6 @@ u8 EEPROM_Read_Byte( u16 Address)
 	return EEDR;
 
 }
-
-
-
-
-///
-
-
-////
 
 
 void EEPROM_Write_Byte( u16 Address, u8 Value)
@@ -101,6 +83,3 @@ void EEPROM_Write_Byte( u16 Address, u8 Value)
 }
 
 
-
-
-///

@@ -9,6 +9,8 @@ C_SRCS += \
 ../EEROM.c \
 ../KEY_PAD.c \
 ../LCD.c \
+../LEDs.c \
+../Messages.c \
 ../Timers.c \
 ../USART.c \
 ../login.c \
@@ -21,6 +23,8 @@ OBJS += \
 ./EEROM.o \
 ./KEY_PAD.o \
 ./LCD.o \
+./LEDs.o \
+./Messages.o \
 ./Timers.o \
 ./USART.o \
 ./login.o \
@@ -33,6 +37,8 @@ C_DEPS += \
 ./EEROM.d \
 ./KEY_PAD.d \
 ./LCD.d \
+./LEDs.d \
+./Messages.d \
 ./Timers.d \
 ./USART.d \
 ./login.d \

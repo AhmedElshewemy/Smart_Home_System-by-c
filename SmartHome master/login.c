@@ -3,28 +3,29 @@
  u16 Password;
  void SetPassword(u16 ValidPassword){
 	 Password=ValidPassword;
-	// Password=1111;
-
  }
+
+
+ u8 CheckUser(u32 VildPassword){
+ 	   if(Password==VildPassword)
+ 		{
+ 		  MessageWelcomeToEnterSystem();
+	    return 1;
+
+ 		}
+ 	    else{
+ 	 		  MessageWrongPassword();
+ 			return 0;
+ 		}
+ 	}
+
+
 
  /////
 
- void RunBuzzer()
- {
 
-	 LCD_VidSetClEAR();
-	 LCD_VidSendString("wait..");
- 	for(int i=0;i<3;i++){
- 	DIO_VidSetPinDirection( DIO_PORTD , DIO_PIN7 , DIO_OUTPUT );
- 	DIO_VidSetPinValue( DIO_PORTD , DIO_PIN7 , DIO_HIGH );
 
- 		_delay_ms(100);
 
- 		DIO_VidSetPinValue( DIO_PORTD , DIO_PIN7 , DIO_LOW );
-		_delay_ms(60);
- 	}
-
- }
  u8 getnum(u8 key)
  {
  	switch (key)
@@ -43,84 +44,47 @@
  	return 50;
  }
 
-
-
-
-
-
  /////
-
-
- u8 CheckUser(u32 VildPassword){
- 	   if(Password==VildPassword)
- 		{
-
-		LCD_VidSetClEAR();
-		DIO_VidSetPinDirection( DIO_PORTD , DIO_PIN5 , DIO_OUTPUT );
-	    Timer_VidTimer1Init();
-		LCD_VidSendString(" welcome");
-		DIO_VidSetPinValue( DIO_PORTA , DIO_PIN5 , DIO_HIGH );
-
-		_delay_ms(100);
-	    return 1;
-
- 		}
- 	    else{
- 			LCD_VidSetClEAR();
- 			LCD_VidSendString(" wrong pass");
- 			_delay_ms(60);
- 			return 0;
- 		}
- 	}
 
 
 u8 Login(void){
 
 	u8 key;
 	u8 flag=0;
-	LCD_VidInit();
 
-
-	LCD_VidSendString("Welcome to the");
-	LCD_VidGoToLocation(LCD_RowTwo, LCD_ColOne);
-	LCD_VidSendString("smart home");
-	_delay_ms(200);
-	KPAD_VidInint();
+	MessageWelcome();
 
 	EEROM();
+
 	while(1)
-		{
-	LCD_VidSetClEAR();
-	LCD_VidSendString("Select mode :");
-	LCD_VidGoToLocation(LCD_RowTwo, LCD_ColOne);
-	LCD_VidSendString("0:Admin 1:Guest");
 
-
+	{
+		MessageSelect();
 	key = KPD_u8GetPressedKey();
 
 	if (key=='0')
 	{
      flag=LoginAdmin();
 		break;
-	}else if(key=='1'){
+	}
+	else if(key=='1'){
     //run buzer
+		DIO_VidSetPinDirection( DIO_PORTD , DIO_PIN7 , DIO_OUTPUT );
 		DIO_VidSetPinValue( DIO_PORTA , DIO_PIN6 , DIO_HIGH );
 		RunBuzzer();
 		DIO_VidSetPinValue( DIO_PORTA , DIO_PIN6 , DIO_LOW );
 
-	}else{
-		LCD_VidSetClEAR();
-		LCD_VidSendString("wrong select !");
-		_delay_ms(100);
-
-
 	}
+	else
+		{
+		 MessageWrongSelect();
+	    }
 
 	}
 	return flag;
 }
 
- ////
+
 u8 LoginAdmin (void)
 {
 
@@ -128,37 +92,25 @@ u8 LoginAdmin (void)
 	u8 key;
 	u8 x=0;
 
-
-
-
 	for ( x=0;x<3;x++)
 	{
-		LCD_VidSetClEAR();
-		LCD_VidSendString("Password:");
+		 MessageSetPassowrd();
 
 		for(int i =0 ;i<4;i++)
 		{
-				key = KPD_u8GetPressedKey();
-					LCD_vidSendChar(key);
-					key = getnum(key);
-					ValidPassword=ValidPassword*10+key;
-
-			}
-		_delay_ms(50);
+			key = KPD_u8GetPressedKey();
+			LCD_vidSendChar(key);
+			key = getnum(key);
+			ValidPassword=ValidPassword*10+key;
+		}
 
 		if(CheckUser(ValidPassword)){
-
 			break;
 		}
 
           	}
 	if(x==3){
-	LCD_VidSetClEAR();
-	LCD_VidSendString("sorry not allowed ");
-	LCD_VidGoToLocation(LCD_RowTwo, LCD_ColOne);
-	LCD_VidSendString("more of 3");
-
-	DIO_VidSetPinValue(DIO_PORTA,DIO_PIN7,DIO_HIGH);
+		MessageNotAllowedMore_3();
 	return 0;
 	}
 	return 1;
